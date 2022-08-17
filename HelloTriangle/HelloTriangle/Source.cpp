@@ -214,9 +214,9 @@ int setupGeometry()
 	// Cada atributo do vértice (coordenada, cores, coordenadas de textura, normal, etc)
 	// Pode ser arazenado em um VBO único ou em VBOs separados
 	GLfloat vertices[] = {
-		-0.5, -0.5, 0.0,
-		 0.5, -0.5, 0.0,
-		 0.0, 0.5, 0.0,
+		-0.5, -0.5, 0.0, // V0
+		 0.5, -0.5, 0.0, // V1
+		 0.0, 0.5, 0.0, // V2
 		 //outro triangulo vai aqui
 	};
 
