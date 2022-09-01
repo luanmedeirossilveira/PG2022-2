@@ -39,7 +39,7 @@ const GLchar* vertexShaderSource = "#version 450\n"
 "gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
 "}\0";
 
-//Códifo fonte do Fragment Shader (em GLSL): ainda hardcoded
+//Código fonte do Fragment Shader (em GLSL): ainda hardcoded
 const GLchar* fragmentShaderSource = "#version 450\n"
 "uniform vec4 inputColor;\n"
 "out vec4 color;\n"
@@ -120,19 +120,26 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glLineWidth(10);
-		glPointSize(20);
+		glPointSize(20); // tamanho do pixel do ponto em cada vértice
 
 		// Chamada de desenho - drawcall
 		// Poligono Preenchido - GL_TRIANGLES
-		glUniform4f(colorLoc, 0.0f, 0.0f, 1.0f, 1.0f); //enviando cor para variável uniform inputColor
+		glUniform4f(colorLoc, 0.902f, 0.62f, 0.345f, 1.0f); //enviando cor para variável uniform inputColor
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		// Chamada de desenho - drawcall
 		// CONTORNO - GL_LINE_LOOP
 		// PONTOS - GL_POINTS
-		glUniform4f(colorLoc, 1.0f, 0.0f, 1.0f, 1.0f); //enviando cor para variável uniform inputColor
-		glDrawArrays(GL_POINTS, 0, 3);
+		glUniform4f(colorLoc, 0.902f, 0.475f, 0.345f, 1.0f); //enviando cor para variável uniform inputColor
+		glDrawArrays(GL_POINTS, 0, 6);
+		glBindVertexArray(0);
+
+		// Chamada de desenho - drawcall
+		// CONTORNO - GL_LINE_LOOP
+		// PONTOS - GL_POINTS
+		glUniform4f(colorLoc, 1.0f, 1.0f, 1.0f, 1.0f); //enviando cor para variável uniform inputColor
+		glDrawArrays(GL_LINE_LOOP, 0, 6);
 		glBindVertexArray(0);
 
 		// Troca os buffers da tela
@@ -214,9 +221,13 @@ int setupGeometry()
 	// Cada atributo do vértice (coordenada, cores, coordenadas de textura, normal, etc)
 	// Pode ser arazenado em um VBO único ou em VBOs separados
 	GLfloat vertices[] = {
-		-0.5, -0.5, 0.0, // V0
-		 0.5, -0.5, 0.0, // V1
-		 0.0, 0.5, 0.0, // V2
+	   // X     Y    Z
+		-0.5, 0.0, 0.0,
+		0.0, 0.5, 0.0,
+		0.0, 0.0, 0.0,
+		-0.5, 0.0, 0.0,
+		0.5, 0.0, 0.0,
+		0.0, 0.5, 0.0,
 		 //outro triangulo vai aqui
 	};
 
