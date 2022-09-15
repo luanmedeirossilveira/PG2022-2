@@ -1,4 +1,4 @@
-/* Hello Triangle - código adaptado de https://learnopengl.com/#!Getting-started/Hello-Triangle 
+/* Hello Triangle - código adaptado de https://learnopengl.com/#!Getting-started/Hello-Triangle
  *
  * Adaptado por Rossana Baptista Queiroz
  * para a disciplina de Processamento Gráfico - Unisinos
@@ -98,16 +98,16 @@ int main()
 
 	// Gerando um buffer simples, com a geometria de um triângulo
 	GLuint VAO = setupGeometry();
-	
+
 
 	// Enviando a cor desejada (vec4) para o fragment shader
 	// Utilizamos a variáveis do tipo uniform em GLSL para armazenar esse tipo de info
 	// que não está nos buffers
 	GLint colorLoc = glGetUniformLocation(shaderID, "inputColor");
 	assert(colorLoc > -1);
-	
+
 	glUseProgram(shaderID);
-	
+
 
 	// Loop da aplicação - "game loop"
 	while (!glfwWindowShouldClose(window))
@@ -119,28 +119,11 @@ int main()
 		glClearColor(0.8f, 0.8f, 0.8f, 1.0f); //cor de fundo
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glLineWidth(10);
-		glPointSize(20); // tamanho do pixel do ponto em cada vértice
-
 		// Chamada de desenho - drawcall
 		// Poligono Preenchido - GL_TRIANGLES
 		glUniform4f(colorLoc, 0.902f, 0.62f, 0.345f, 1.0f); //enviando cor para variável uniform inputColor
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-
-		// Chamada de desenho - drawcall
-		// CONTORNO - GL_LINE_LOOP
-		// PONTOS - GL_POINTS
-		glUniform4f(colorLoc, 0.902f, 0.475f, 0.345f, 1.0f); //enviando cor para variável uniform inputColor
-		glDrawArrays(GL_POINTS, 0, 6);
-		glBindVertexArray(0);
-
-		// Chamada de desenho - drawcall
-		// CONTORNO - GL_LINE_LOOP
-		// PONTOS - GL_POINTS
-		glUniform4f(colorLoc, 1.0f, 1.0f, 1.0f, 1.0f); //enviando cor para variável uniform inputColor
-		glDrawArrays(GL_LINE_LOOP, 0, 6);
-		glBindVertexArray(0);
+		glDrawArrays(GL_TRIANGLES, 0, 8*3);
 
 		// Troca os buffers da tela
 		glfwSwapBuffers(window);
@@ -216,19 +199,47 @@ int setupShader()
 // A função retorna o identificador do VAO
 int setupGeometry()
 {
-	// Aqui setamos as coordenadas x, y e z do triângulo e as armazenamos de forma
-	// sequencial, já visando mandar para o VBO (Vertex Buffer Objects)
-	// Cada atributo do vértice (coordenada, cores, coordenadas de textura, normal, etc)
-	// Pode ser arazenado em um VBO único ou em VBOs separados
 	GLfloat vertices[] = {
-	   // X     Y    Z
-		-0.5, 0.0, 0.0,
-		0.0, 0.5, 0.0,
-		0.0, 0.0, 0.0,
-		-0.5, 0.0, 0.0,
-		0.5, 0.0, 0.0,
-		0.0, 0.5, 0.0,
-		 //outro triangulo vai aqui
+		
+		// 1 Triângulo
+		-0.8, 0.0, 0.0, // v1
+		-0.6, 0.6, 0.0,  // v2
+		0.0, 0.0, 0.0,  // v3
+		
+		//// 2 Triângulo
+		-0.6, 0.6, 0.0, // v1
+		0.0, 0.8, 0.0,  // v2
+		0.0, 0.0, 0.0,  // v3
+
+		//// 3 Triângulo
+		0.0, 0.8, 0.0, // v1
+		0.6, 0.6, 0.0,  // v2
+		0.0, 0.0, 0.0,  // v3
+
+		//// 4 Triângulo
+		0.6, 0.6, 0.0, // v1
+		0.8, 0.0, 0.0,  // v2
+		0.0, 0.0, 0.0,  // v3
+
+		//// 5 Triângulo
+		0.8, 0.0, 0.0, // v1
+		0.6, -0.6, 0.0,  // v2
+		0.0, 0.0, 0.0,  // v3
+
+		//// 6 Triângulo
+		0.6, -0.6, 0.0, // v1
+		0.0, -0.8, 0.0,  // v2
+		0.0, 0.0, 0.0,  // v3
+
+		//// 7 Triângulo
+		0.0, -0.8, 0.0,  // v1
+		-0.6, -0.6, 0.0,  // v2
+		0.0, 0.0, 0.0,  // v3
+
+		//// 8 Triângulo
+		-0.6, -0.6, 0.0,  // v1
+		-0.8, 0.0, 0.0,  // v2
+		0.0, 0.0, 0.0,  // v3
 	};
 
 	GLuint VBO, VAO;
@@ -257,10 +268,10 @@ int setupGeometry()
 
 	// Observe que isso é permitido, a chamada para glVertexAttribPointer registrou o VBO como o objeto de buffer de vértice 
 	// atualmente vinculado - para que depois possamos desvincular com segurança
-	glBindBuffer(GL_ARRAY_BUFFER, 0); 
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	// Desvincula o VAO (é uma boa prática desvincular qualquer buffer ou array para evitar bugs medonhos)
-	glBindVertexArray(0); 
+	glBindVertexArray(0);
 
 	return VAO;
 }
