@@ -91,8 +91,8 @@ int main()
 
 	//Matriz de projeção
 	glm::mat4 projection = glm::mat4(1); //matriz identidade
-	//projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, -1.0f, 1.0f);
-	projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+	projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, -1.0f, 1.0f);
+	//projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
 
 	
 	glUseProgram(shader.ID);
@@ -113,11 +113,19 @@ int main()
 		glPointSize(20);
 
 		glfwGetFramebufferSize(window, &width, &height);
-		glViewport(0, 0, width/2, height/2);
+		glViewport(0, 0, width, height);
+
+		// Matriz de transformação do objeto
+		glm::mat4 model = glm::mat4(1); // Matriz identidade
+		model = glm::translate(model, glm::vec3(400.0f, 300.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::scale(model, glm::vec3(300.0f, 300.0f, 1.0f));// Escala para o triângulo aparecer
+
+		shader.setMat4("model", glm::value_ptr(model));
 
 		// Chamada de desenho - drawcall
 		// Poligono Preenchido - GL_TRIANGLES
-		shader.setVec4("inputColor",1.0f, 1.0f, 0.0f, 1.0f); //enviando cor para variável uniform inputColor
+		shader.setVec4("inputColor", 0.0f, 0.0f, 0.0f, 1.0f); //enviando cor para variável uniform inputColor
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
@@ -125,13 +133,6 @@ int main()
 		// CONTORNO - GL_LINE_LOOP
 		// PONTOS - GL_POINTS
 		shader.setVec4("inputColor",1.0f, 0.0f, 1.0f, 1.0f); //enviando cor para variável uniform inputColor
-		glDrawArrays(GL_LINE_LOOP, 0, 3);
-		
-		////////------------ fim do 1o viewport
-		glViewport(width / 2, height / 2, width / 2, height / 2);
-		shader.setVec4("inputColor", 1.0f, 0.0f, 1.0f, 1.0f);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		shader.setVec4("inputColor", 1.0f, 1.0f, 0.0f, 1.0f); //enviando cor para variável uniform inputColor
 		glDrawArrays(GL_LINE_LOOP, 0, 3);
 
 		glBindVertexArray(0);
@@ -168,9 +169,9 @@ int setupGeometry()
 	// Cada atributo do vértice (coordenada, cores, coordenadas de textura, normal, etc)
 	// Pode ser arazenado em um VBO único ou em VBOs separados
 	GLfloat vertices[] = {
-		-0.5 * 300 + 400, -0.5 * 300 + 300, 0.0,
-		0.5 * 300 + 400 , -0.5 * 300 + 300, 0.0,
-		0.0 * 300 + 400, 0.5 * 300 + 300, 0.0,
+		-0.5, -0.5, 0.0,
+		 0.5, -0.5, 0.0,
+		 0.0,  0.5, 0.0,
 		 //outro triangulo vai aqui
 	};
 
