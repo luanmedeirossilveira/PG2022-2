@@ -118,7 +118,7 @@ int main()
 		// Matriz de transformação do objeto
 		glm::mat4 model = glm::mat4(1); // Matriz identidade
 		model = glm::translate(model, glm::vec3(400.0f, 300.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, /* glm::radians(45.0f) */ (float) glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::scale(model, glm::vec3(300.0f, 300.0f, 1.0f));// Escala para o triângulo aparecer
 
 		shader.setMat4("model", glm::value_ptr(model));
